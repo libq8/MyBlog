@@ -1,5 +1,6 @@
 ---
 title: ' Hexo+github搭建个人博客网站（一）'
+permalink: ' Hexo+github搭建个人博客网站（一）'
 date: 2019-04-05 23:31:07
 categories: 尝试集
 tags: [ hexo , 个人博客]
@@ -118,7 +119,7 @@ description: 简单使用hexo搭建个人博客部署到github page
 
 7)  打开浏览器访问 http://localhost:4000 查看效果
 
-![博客网站初始效果](https://github.com/libq8/MyBlog/raw/master/img/003.PNG)
+![博客网站初始效果](/image/hexo/003.PNG)
 
 
 
