@@ -21,13 +21,13 @@ tags:  CUDA
   1972	年由费林（Michael J. Flynn ）提出根据指令和数据进入CPU的方式进行分类
   基础类别包含
   SISD: 经典的冯诺依曼架构
-  ![](https://libq8.coding.me//post-images/1555839396971.png)
+  ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/01.png?raw=true)
   SIMD：多个处理单元使用同样的指令处理不同的数据
-  ![](https://libq8.coding.me//post-images/1555839433801.png)
+  ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/02.png?raw=true)
   MISD：流水线架构
-  ![](https://libq8.coding.me//post-images/1555839441964.png)
+  ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/03.png?raw=true)
   MIMD：多个处理单元使用不同的指令处理不同的数据，MIMD扩展类别包含SPMD,MPMD
-  ![](https://libq8.coding.me//post-images/1555839457424.png)
+  ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/04.png?raw=true)
 ### 2.1.2 CPU vs GPU
 * 性能指标
   * 延迟：一个操作熊开始到完成所需的时间（ms）
@@ -38,17 +38,17 @@ tags:  CUDA
   * 目标：降低延迟
     * 大缓存（降低存储器延迟），强大运算器（降低运算延迟），复杂控制机制（分支预测等），线程上下文切换开销大
   * 提高串行代码的性能，更加适用于复杂的单任务
-    ![](https://libq8.coding.me//post-images/1555839479786.png)
+    ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/05.png?raw=true)
 * GPU
   * 目标提高吞吐量
     * 小缓存（存储速度更快）节能计算器，简单的控制流机制（无分支），轻量级线程
   * 大规模并行架构，适用于大量的相似任务
-    ![](https://libq8.coding.me//post-images/1555839486828.png)
+    ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/06.png?raw=true)
 ### 2.1.3 NVIDIA GPU架构
 * 二级架构
   * 每个GPU拥有多个SM，SM之间共享显存（device memory）
   * 每个SM拥有多个CUDA core，core之间共用调度器和指令缓存
-    ![](https://libq8.coding.me//post-images/1555839505842.png)
+    ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/07.png?raw=true)
 * 线程束
   * CUDA线程以32个为一组在GPU上执行，在不同的数据上执行相同的指令（SIMT）
   * SM负责调度并执行线程束，调度时发生上下文切换
@@ -82,9 +82,10 @@ tags:  CUDA
 * GPU架构和线程组织
   * 架构模型
   * 确定线程编号——使用内置变量threadIdx,blockIdx,blockDim
-    ![](https://libq8.coding.me//post-images/1555839543042.png)
+    ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/08.png?raw=true)
 
 ### 2.1.5 CUDA编程举例
+
 * 向量相加
   * 内存管理
   * 错误处理
@@ -109,7 +110,7 @@ tags:  CUDA
 * 每个线程thread拥有独立的寄存器、本地内存
 * 每个线程块block使用同一个共享内存
 * grid中所有线程共享同一个全局内存、常量内存和纹理内存
-  ![](https://libq8.coding.me//post-images/1555839629655.png)
+  ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/10.png?raw=true)
 * CUDA变量与类型修饰符
   * 没有修饰符的变量将被置于寄存器
     * 超过寄存器限制的变量将被置于本地内存，极大地降低程序效率！
@@ -135,13 +136,14 @@ tags:  CUDA
 
 | 变量声明	| 存储器	| 片上/片外	| 缓存	| 访问开销 |
 | ------ | ------ | ------ | ------ | ------ |
-| int var;	| 寄存器	| 片上	| NA	| 1
-| int array_var[100];	| 本地	| 片外	| 是*	| 1 （L1缓存）200-800 |
-| \__shared__ int shared_var;	| 共享	| 片上	| NA	| ~1 | 
-| \__device__ int global_var;	| 全局	| 片外	| 是*	| 200-800 | 
-| \__constant__ int constant_var;	| 常量	| 片外	| 是	 | ~1（缓存）| 
+| int var;	| 寄存器	| 片上	| NA	| 1 |
+| int array_var[100];	| 本地	| 片外	| 是	| 1 （L1缓存）200-800 |
+| \__shared\__ int shared_var;	| 共享	| 片上	| NA	| ~1 |
+| \__device\__ int global_var;	| 全局	| 片外	| 是	| 200-800 |
+| \__constant\__ int constant_var;	| 常量	| 片外	| 是	 | ~1（缓存）|
 
 ### 2.3.3 全局内存
+
 #### 2.3.3.1 动态与静态全局内存
 * **动态全局内存管理**
   cudaMalloc(), cudaMemcpy(), cudaFree()
@@ -153,7 +155,7 @@ tags:  CUDA
   * 统一内存中创建托管内存池
   * 底层系统在统一内存空间中自动在主机和设备间进行传输
   * 简化程序员视角中的内存管理
-    ![](https://libq8.coding.me//post-images/1555839708389.png)
+    ![](https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/11.png?raw=true)
 * **优点**
   * 更容易将C代码移植到CUDA
   * 更方便数据管理
@@ -336,15 +338,15 @@ tags:  CUDA
     * 步长为1
       * 访问整型、单精度浮点数
       * 无冲突
-      * ![](https://libq8.coding.me//post-images/1555839765906.png)
+      * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/12.png?raw=true" width=50% height=50%  />
     * 步长为2
       * 访问双精度浮点数
       * 1-way 冲突
-      * ![](https://libq8.coding.me//post-images/1555839785459.png)
+      * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/13.png?raw=true" width=50% height=50%  />
     * 步长为3
       * 如12字节的结构体
       * 无冲突
-      * ![](https://libq8.coding.me//post-images/1555839798542.png)
+      * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/14.png?raw=true" width=50% height=50%  />
 
 
 ### 2.3.7 本地内存
@@ -408,27 +410,29 @@ tags:  CUDA
     * 不指明执行顺序
 
 ### 2.4.3 并行编程模型
+
 * 并行模式
   * 并行程序的高级抽象，不关心具体的数据类型或操作
   * 常见的并行模式：gather, scatter, map, stencial, reduce, scan, sort, segmentedscan, map-reduce
 
 #### 2.4.3.1 规约算法
+
 * 对传入的O(n)个数据使用二元操作符生成O(1)个结果
   * 二元操作符需满足结合律，如最值，求和等
 * CPU串行规约-执行时间O(n)
-* ![](https://libq8.coding.me//post-images/1555840020389.PNG)
+* <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/20.PNG?raw=true"/>
 * GPU规约：二叉树-执行时间O(lgn)
-* ![](https://libq8.coding.me//post-images/1555840032752.PNG)
+* <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/21.PNG?raw=true"/>
 * 例子：数组求和
   * 使用全局内存
-    * ![](https://libq8.coding.me//post-images/1555840044998.PNG)
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/22.PNG?raw=true" />
     * 需要额外分配空间，访问速度慢，线程工作量小
   * 使用共享内存
-    * ![](https://libq8.coding.me//post-images/1555840058228.PNG)
-    * ![](https://libq8.coding.me//post-images/1555840077710.PNG)
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/23.PNG?raw=true" />
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/24.PNG?raw=true" />
   * 使用atomicAdd（）
     * 一次核函数或数次不带atomic的核函数加上一次带atomic的核函数
-    * ![](https://libq8.coding.me//post-images/1555840136140.PNG)
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/29.PNG?raw=true" />
   * 使用线程束洗牌指令
     * 共享内存使线程块中线程快速交换数据，必要时使用\__syncthreads()同步
     * 洗牌指令使线程块中线程快速交换数据
@@ -439,13 +443,13 @@ tags:  CUDA
         * 支持int，float，half
         * var：需要交换的变量；srcLane：数据来源的束内线程；Width：线程束的分段宽度
         * 1. T \__shlf(T var, int srcalne, int width = warpSize)
-        * ![](https://libq8.coding.me//post-images/1555840151255.PNG)
+        * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/25.PNG?raw=true" />
         * 2.  T \__shlf_up(T var, int delta, int width = warpSize)  -delta:移位的偏移量
-        * ![](https://libq8.coding.me//post-images/1555840166656.PNG)
+        * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/26.PNG?raw=true" />
         * 3. T \__shlf_down(T var, int delta, int width = warpSize) -delta:移位的偏移量
-        * ![](https://libq8.coding.me//post-images/1555840178385.PNG)
+        * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/27.PNG?raw=true" />
         * 4. T \__shlf_xor(T var, int laneMask, int width = warpSize) -laneMask:指明异或的bit
-        * ![](https://libq8.coding.me//post-images/1555840190243.PNG)
+        * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/28.PNG?raw=true" />
 
 #### 2.4.3.2 扫描算法
 * 包含扫描scan，前缀扫描prefix scan，前缀求和prefix sum，并行前缀求和parallel prefix sum
@@ -471,14 +475,14 @@ tags:  CUDA
 
   * 二级缓存
     * 对齐与合并访问
-    * ![](https://libq8.coding.me//post-images/1555839899804.PNG)
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/15.PNG?raw=true" />
     * 对齐访问，但引用地址不连续
-    * ![](https://libq8.coding.me//post-images/1555839913770.PNG)
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/16.PNG?raw=true" />
     * 非对齐访问，引用地址连续
-    * ![](https://libq8.coding.me//post-images/1555839927733.PNG)
+    * <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/17.PNG?raw=true" />
 
 * 一级缓存的合并访问
-  ![](https://libq8.coding.me//post-images/1555839947789.PNG)
+  <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/18.PNG?raw=true" />
 
 
 ### 2.5.2 优化占用率
@@ -504,8 +508,7 @@ tags:  CUDA
   * Tail：处理无法被整除的工作量中余下部分的线程块
   * 意义：过大的线程块可能无法充分利用硬件资源，过小的线程块可能限制利用率
     * SM上同时活跃的线程块数量有限制
-      ![](https://libq8.coding.me//post-images/1555839985150.PNG)
-
+      <img src="https://github.com/libq8/MyBlog/blob/master/image/courses-note/multicores/19.PNG?raw=true" />
 * **降低分支的工作量**
   * 若不同的分支完成相同的任务，尝试将其从分支中抽离
 
